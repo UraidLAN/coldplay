@@ -57,7 +57,8 @@ class Coldplay < Sinatra::Base
     end
   end
 
-  def admin_auth(user, level)
+  # def admin_auth(user, level)
+  # end
 
   ## Index(-chan)
 

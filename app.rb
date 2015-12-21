@@ -4,11 +4,13 @@ Bundler.require
 # load the Database and User model
 require './model'
 
-class WebInterface < Sinatra::Base
+# ssh lol
+
+class Coldplay < Sinatra::Base
   enable :sessions
   # THIS IS IMPORTANT! NOT SPECIFYING THIS WILL BREAK SESSIONS!!!!
   # https://www.youtube.com/watch?v=OBwS66EBUcY -- culex found and fixed
-  set :session_secret, 'ANR328fnA"+/(t'
+  set :session_secret, '!NU3uu8inlktthvlrugnivngjrdldueit'
   register Sinatra::Flash
 
   use Warden::Manager do |config|
@@ -27,7 +29,7 @@ class WebInterface < Sinatra::Base
       # The action is a route to send the user to when
       # warden.authenticate! returns a false answer. We'll show
       # this route below.
-      action: 'auth/unauthenticated'
+      action: 'a/noauth'
     # When a user tries to log in and cannot, this specifies the
     # app to send the user to.
     config.failure_app = self
@@ -66,24 +68,24 @@ class WebInterface < Sinatra::Base
 
   ## Warden / User Login/out
 
-  get '/auth' do
+  get '/a' do
     if @user = env['warden'].user == nil
-      redirect '/auth/login'
+      redirect '/a/login'
     else
       redirect '/'
     end
   end
 
-  get '/auth/login' do
+  get '/a/login' do
     @user = env['warden'].user || nil
     erb :'auth/login' 
   end
 
-  post '/auth/login' do
+  post '/a/login' do
     env['warden'].authenticate! :password
     @user = env['warden'].user || nil
 
-    flash[:success] = env['warden'].message
+    @flash[:success] = env['warden'].message
 
     if session[:return_to].nil?
       redirect '/'
@@ -92,19 +94,34 @@ class WebInterface < Sinatra::Base
     end
   end
 
-  get '/auth/logout' do
-    env['warden'].raw_session.inspect
+  get '/a/logout' do
     env['warden'].logout
-    flash[:success] = 'Successfully logged out'
+    @flash[:success] = 'Successfully logged out'
     redirect '/'
   end
 
-  post '/auth/unauthenticated' do
+  post '/a/noauth' do
     session[:return_to] = env['warden.options'][:attempted_path] if session[:return_to].nil?
     puts env['warden.options'][:attempted_path]
     puts env['warden']
     flash[:error] = env['warden'].message || "You must log in"
     redirect '/auth/login'
   end
+
+  # Card Management
+
+  get '/c' do
+    redirect '/'
+  end
+
+  get '/c/list' do
+    db = Sequel.connect('sqlite://cards.db')
+    db.fetch("SELECT * FROM rfid") do |row|
+
+    end
+    erb :'card/list'
+  end
+
+  # anything in /s is an ssh runner, yay
 
 end

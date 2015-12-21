@@ -144,23 +144,27 @@ table.list tr:nth-child(odd) {
 	Logged in as <%= @user.username %>
 | <a href="/">Home</a>
 | <a href="/c/list">Card List</a>
-| <a href="/logs">Logs</a>
+| <a href="/c/logs">Logs</a>
+<% if @user.admin >= 2 %>
+| <a href="/a/users">User Manager</a>
+<% end %>
 <% end %>
 </div>
     <div id="main">
-			<% if flash[:success] %>
+			<% if @flash[:success] %>
 			<div class="flash success">
-				<%= flash[:success] %>
+				<%= @flash[:success] %>
 			</div>
 			<% end %>
 
-			<% if flash[:error] %>
+			<% if @flash[:error] %>
 			<div class="flash error">
-				<%= flash[:error] %>
+				<%= @flash[:error] %>
 			</div>
 			<% end %>
 
 			<%= yield %>
+
     </div>
     <div id="footer">
       He who lies and deceives is not welcome, neither is he who tells others of the Golden Land.

@@ -117,9 +117,7 @@ class Coldplay < Sinatra::Base
 
   get '/c/list' do
     db = Sequel.connect('sqlite://cards.db')
-    db.fetch("SELECT * FROM rfid") do |row|
-
-    end
+    @cards = db.fetch("SELECT * FROM rfid")
     erb :'card/list'
   end
 

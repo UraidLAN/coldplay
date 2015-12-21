@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>coldplay</title>
+<style type="text/css">
+body {
+  background-color: #333;
+  font-family: Helvetica, "Liberation Sans", Arial, sans-serif;
+  font-size: 9pt;
+}
+
+#wrapper {
+  background-color: #FFFFF4;
+  padding: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 2px solid #EAC117;
+  color: #000;
+  width: 870px;
+  float: center;
+  margin: 0 auto;
+}
+
+table.list {
+  border: 1px solid #EAC117;
+  border-spacing: 0;
+}
+
+table.list td, table.list th {
+  border-bottom: 1px solid #EAC117;
+}
+
+table.list tr:last-child td {
+  border: 0;
+}
+
+.list_leech, .list_seed, .list_size {
+  text-align: right;
+}
+
+.list_type {
+  text-align: center;
+}
+
+table.list th, a {
+  color: #CA960D;
+}
+
+a {
+  text-decoration: none;
+}
+
+.underline {
+	text-decoration: underline;
+}
+
+#head {
+  text-align: right;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #EAC117;
+  width: 100%;
+  padding: -5px;
+  margin-bottom: 10px;
+}
+
+table.list {
+  width: 100%;
+}
+
+table.list tr:nth-child() {
+  background-color: #000;
+}
+
+table.list tr:nth-child(even) {
+  background-color: #FFFFC4;
+}
+
+table.list tr:nth-child(odd) {
+  background-color: #EBEBAE;
+}
+
+#footer {
+  padding-top: 5px;
+  border-top: 1px solid #EAC117;
+  width: 100%;
+  padding: -5px;
+  margin-top: 10px;
+  font-size: 8pt;
+}
+
+.flash {
+  width: 96%;
+  padding: 5px;
+}
+
+.error {
+  border: 2px solid #CC0000;
+  background-color: #FFAAA5;
+}
+
+.success {
+  border: 2px solid #4CC417;
+  background-color: #C3FDB8;
+}
+
+.info {
+  margin: 0 auto;
+  width: 93%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid #EAC117;
+  padding: 3px;
+}
+.info th {
+  text-align: left;
+}
+.info td {
+  text-align: left;
+}
+
+.button {
+  padding: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border: 1px solid #EAC117;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+  <div id="wrapper">
+		<div id="head">
+<% if not @user %>
+<a href="/a/login">Login</a>
+<% else %>
+	Logged in as <%= @user.username %>
+| <a href="/">Home</a>
+| <a href="/c/list">Card List</a>
+| <a href="/logs">Logs</a>
+<% end %>
+</div>
+    <div id="main">
+			<% if flash[:success] %>
+			<div class="flash success">
+				<%= flash[:success] %>
+			</div>
+			<% end %>
+
+			<% if flash[:error] %>
+			<div class="flash error">
+				<%= flash[:error] %>
+			</div>
+			<% end %>
+
+			<%= yield %>
+    </div>
+    <div id="footer">
+      He who lies and deceives is not welcome, neither is he who tells others of the Golden Land.
+    </div>
+  </div>
+</body>
+</html>
+

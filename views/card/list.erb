@@ -1,0 +1,18 @@
+<table>
+  <tr>
+    <th>ID</th>
+    <th>user</th>
+    <th>enabled?</th>
+    <th>sound file</th>
+    <th>description</th>
+  </tr>
+  <% @cards.each do |card| %>
+  <tr>
+    <td><%= card[:card_id] %></td>
+    <td><%= card[:username] %></td>
+    <td><%= card[:enabled] %></td>
+    <td><%= card[:soundfile] %></td>
+    <td><%= card[:description] %></td>
+  </tr>
+  <% end %>
+</table>

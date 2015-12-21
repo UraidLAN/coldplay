@@ -86,7 +86,7 @@ class Coldplay < Sinatra::Base
     env['warden'].authenticate! :password
     @user = env['warden'].user || nil
 
-    @flash[:success] = env['warden'].message
+    flash[:success] = env['warden'].message
 
     if session[:return_to].nil?
       redirect '/'
@@ -97,7 +97,7 @@ class Coldplay < Sinatra::Base
 
   get '/a/logout' do
     env['warden'].logout
-    @flash[:success] = 'Successfully logged out'
+    flash[:success] = 'Successfully logged out'
     redirect '/'
   end
 

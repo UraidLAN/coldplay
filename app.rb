@@ -30,8 +30,8 @@ class Coldplay < Sinatra::Base
       # warden.authenticate! returns a false answer. We'll show
       # this route below.
       action: 'a/noauth'
-    # When a user tries to log in and cannot, this specifies the
-    # app to send the user to.
+      # When a user tries to log in and cannot, this specifies the
+      # app to send the user to.
     config.failure_app = self
   end
 
@@ -60,17 +60,20 @@ class Coldplay < Sinatra::Base
   # def admin_auth(user, level)
   # end
 
+  before do
+    @user = env['warden'].user || nil
+  end
+
   ## Index(-chan)
 
   get '/' do
-    @user = env['warden'].user || nil
     erb :index
   end
 
   ## Warden / User Login/out
 
   get '/a' do
-    if @user = env['warden'].user == nil
+    if @user.nil?
       redirect '/a/login'
     else
       redirect '/'
@@ -78,13 +81,11 @@ class Coldplay < Sinatra::Base
   end
 
   get '/a/login' do
-    @user = env['warden'].user || nil
     erb :'auth/login' 
   end
 
   post '/a/login' do
     env['warden'].authenticate! :password
-    @user = env['warden'].user || nil
 
     flash[:success] = env['warden'].message
 
@@ -106,7 +107,7 @@ class Coldplay < Sinatra::Base
     puts env['warden.options'][:attempted_path]
     puts env['warden']
     flash[:error] = env['warden'].message || "You must log in"
-    redirect '/auth/login'
+    redirect '/a/login'
   end
 
   # Card Management
@@ -116,6 +117,10 @@ class Coldplay < Sinatra::Base
   end
 
   get '/c/list' do
+    if @user.nil?
+      flash[:error] = env['warden'].message || "You must log in"
+      redirect '/a/login'
+    end
     db = Sequel.connect('sqlite://cards.db')
     @cards = db.fetch("SELECT * FROM rfid")
     erb :'card/list'

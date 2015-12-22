@@ -2,6 +2,8 @@ require 'bundler'
 Bundler.require
 
 require 'tilt/erb'
+require 'net/ssh'
+require 'net/scp'
 
 # load the Database and User model
 require './model'

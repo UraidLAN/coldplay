@@ -154,4 +154,23 @@ class Coldplay < Sinatra::Base
 
   # anything in /s is an ssh runner, yay
 
+  get '/s/sync' do
+    Net::SSH.start('doorpi', 'root', keys: "/home/peer/.ssh/id_rsa") do |ssh|
+      puts 'SSH: Connected'
+      puts 'SSH: SCP Start'
+      ssh.scp.upload!("/home/peer/coldplay/cards.db", "/home/pi/overlook/cards.db") do |ch, name, sent, total|
+        puts "SSH: SCP: #{sent}/#{total}"
+      end
+      puts 'SSH: SCP Done'
+      channel = ssh.open_channel do |ch|
+        ch.exec "pkill -9 doorlock.py" do |ch, success|
+          raise "RemoteCommandError" unless success
+          ch.on_close { puts "SSH: OVERLOOK Restarted" }
+        end
+      end
+      puts "SSH: Closed"
+    end
+  end
+
+
 end

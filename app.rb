@@ -173,7 +173,7 @@ class Coldplay < Sinatra::Base
       env['REQUEST_METHOD'] = 'GET'
       redirect '/c/add'
     end
-    dataset = db["INSERT INTO rfid (card_id,username,enabled,soundfile,description) VALUES (?,?,1,NULL,?)", params["card"]["cid"].upcase, params['card']['user'], params["card"]["ctype"]]
+    dataset = db["INSERT INTO rfid (card_id,username,enabled,soundfile,description) VALUES (?,?,1,'',?)", params["card"]["cid"].upcase, params['card']['user'], params["card"]["ctype"]]
     dataset.insert
     flash[:success] = "Card added, remember to <a href='/s/sync'>sync</a>!"
     redirect '/c/add'

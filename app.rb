@@ -1,6 +1,8 @@
 require 'bundler'
 Bundler.require
 
+require 'tilt/erb'
+
 # load the Database and User model
 require './model'
 

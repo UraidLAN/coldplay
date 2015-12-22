@@ -9,7 +9,7 @@
   <tr>
     <td><%= card[:card_id] %></td>
     <td><%= card[:username] %></td>
-    <td><% if card[:enabled] %>True<% else %>False<% end %></td>
+    <td><form action="/c/toggle" method="post"><% if card[:enabled] %>True<input type="hidden" name="state" value="False" /><% else %>False<input type="hidden" name="state" value="True" /><% end %><input type="hidden" name="cid" value="<%= card[:card_id] %>" /><input type="submit" value="Toggle" /></form></td>
     <td><%= card[:description] %></td>
   </tr>
   <% end %>

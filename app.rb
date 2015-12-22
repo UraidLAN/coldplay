@@ -130,8 +130,6 @@ class Coldplay < Sinatra::Base
       end
     end
   end
-        
-
 
   get '/c/list' do
     if @user.nil?
@@ -141,6 +139,15 @@ class Coldplay < Sinatra::Base
     db = Sequel.connect('sqlite://cards.db')
     @cards = db.fetch("SELECT * FROM rfid")
     erb :'card/list'
+  end
+
+  get '/c/list' do
+    if @user.nil?
+      flash[:error] = env['warden'].message || "You must log in"
+      redirect '/a/login'
+    end
+    @logs = Log.all
+    erb :'card/logs'
   end
 
   # anything in /s is an ssh runner, yay

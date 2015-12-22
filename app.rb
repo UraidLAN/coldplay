@@ -141,7 +141,7 @@ class Coldplay < Sinatra::Base
     erb :'card/list'
   end
 
-  get '/c/list' do
+  get '/c/logs' do
     if @user.nil?
       flash[:error] = env['warden'].message || "You must log in"
       redirect '/a/login'

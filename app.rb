@@ -159,6 +159,16 @@ class Coldplay < Sinatra::Base
       flash[:error] = env['warden'].message || "You must log in"
       redirect '/a/login'
     end
+    @prefill = nil
+    erb :'card/add'
+  end
+
+  get '/c/add/:cid' do
+    if @user.nil?
+      flash[:error] = env['warden'].message || "You must log in"
+      redirect '/a/login'
+    end
+    @prefill = params[:cid]
     erb :'card/add'
   end
 

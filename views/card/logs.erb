@@ -4,6 +4,7 @@
     <th>event</th>
     <th>Card ID</th>
     <th>user</th>
+    <th>&nbsp;</th>
   </tr>
   <% @logs.each do |log| %>
   <tr>
@@ -11,6 +12,7 @@
     <td><%= log[:event] %></td>
     <td><% if log[:cid] %><%= log[:cid] %><% else %>N/A<% end %></td>
     <td><% if log[:user] %><%= log[:user] %><% else %>N/A<% end %></td>
+    <td><% if log[:event] == "unknownCard" %><a href='/c/add/<%= log[:cid] %>'>Add this card</a><% end %></td>
   </tr>
   <% end %>
 </table>

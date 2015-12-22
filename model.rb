@@ -23,6 +23,21 @@ class User
   end
 end
 
+class Log
+  include DataMapper::Resource
+
+# "{\"event\": \"exitButton\"}"
+# "{\"event\": \"unknownCard\", \"id\": \"88041E1B\"}"
+# "{\"id\": \"8804565B\", \"label\": \"myki\", \"event\": \"doorUnlock\", \"user\": \"rails\"}"
+
+  property :id, Serial, key: true
+  property :ts, DateTime, :default => lambda { |r, p| DateTime.now }
+  property :event, String, required: true, unique: false
+  property :cid, String, required: false, unique: false
+  property :user, String, required: false, unique: false
+
+end
+
 # Tell DataMapper the models are done being defined
 DataMapper.finalize
 

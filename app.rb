@@ -116,6 +116,23 @@ class Coldplay < Sinatra::Base
     redirect '/'
   end
 
+  post '/c/put' do
+    if request.ip == "127.0.0.1"
+      j = JSON.parse(params[:json])
+      if j["event"] == "exitButton"
+        Log.create(event: "exitButton")
+      elsif j["event"] == "unknownCard"
+        Log.create(event: "unknownCard", cid: j["id"])
+      elsif j["event"] == "doorUnlock"
+        Log.create(event: "doorUnlock", cid: j["id"], user: j["user"])
+      elsif j["event"] == "disabledCard"
+        Log.create(event: "disabledCard", cid: j["id"], user: j["user"])
+      end
+    end
+  end
+        
+
+
   get '/c/list' do
     if @user.nil?
       flash[:error] = env['warden'].message || "You must log in"

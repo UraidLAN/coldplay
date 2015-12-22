@@ -1,0 +1,16 @@
+<table>
+  <tr>
+    <th>time</th>
+    <th>event</th>
+    <th>Card ID</th>
+    <th>user</th>
+  </tr>
+  <% @logs.each do |log| %>
+  <tr>
+    <td><%= log[:ts].to_s %></td>
+    <td><%= log[:event] %></td>
+    <td><% if log[:cid] %><%= log[:cid] %><% else %>N/A<% end %></td>
+    <td><% if log[:user] %><%= log[:user] %><% else %>N/A<% end %></td>
+  </tr>
+  <% end %>
+</table>

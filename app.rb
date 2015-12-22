@@ -170,6 +170,7 @@ class Coldplay < Sinatra::Base
       end
       puts "SSH: Closed"
     end
+    erb :'meta/20sec'
   end
 
 

@@ -7,3 +7,5 @@ gem 'warden'
 gem 'sequel'
 gem 'sqlite3'
 gem 'json'
+gem 'net-ssh', require: false
+gem 'net-scp', require: false

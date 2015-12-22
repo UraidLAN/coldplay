@@ -183,9 +183,20 @@ class Coldplay < Sinatra::Base
       env['REQUEST_METHOD'] = 'GET'
       redirect '/c/add'
     end
-    dataset = db["INSERT INTO rfid (card_id,username,enabled,soundfile,description) VALUES (?,?,1,'',?)", params["card"]["cid"].upcase, params['card']['user'], params["card"]["ctype"]]
-    dataset.insert
-    flash[:success] = "Card added, remember to <a href='/s/sync'>sync</a>!"
+
+    if params["card"]["cid"].upcase.length != 8
+      flash[:error] = "Not a card ID"
+      redirect '/c/add'
+    end
+
+    check = db.fetch("SELECT * FROM rfid WHERE #{params["card"]["cid"].upcase}")
+    if check.nil?
+      dataset = db["INSERT INTO rfid (card_id,username,enabled,soundfile,description) VALUES (?,?,1,'',?)", params["card"]["cid"].upcase, params['card']['user'], params["card"]["ctype"]]
+      dataset.insert
+      flash[:success] = "Card added, remember to <a href='/s/sync'>sync</a>!"
+    else
+      flash[:error] = "Card already exists or something blew up"
+    end
     redirect '/c/add'
   end
 

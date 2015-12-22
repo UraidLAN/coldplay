@@ -154,6 +154,29 @@ class Coldplay < Sinatra::Base
     erb :'card/logs'
   end
 
+  get '/c/add' do
+    if @user.nil?
+      flash[:error] = env['warden'].message || "You must log in"
+      redirect '/a/login'
+    end
+    erb :'card/add'
+  end
+
+  post '/c/add' do
+    if @user.nil?
+      flash[:error] = env['warden'].message || "You must log in"
+      redirect '/a/login'
+    end
+    db = Sequel.connect('sqlite://cards.db')
+    if params["card"].empty?
+      flash[:error] = "Something went wrong~!"
+      env['REQUEST_METHOD'] = 'GET'
+      redirect '/c/add'
+    end
+    dataset = db["INSERT INTO rfid (card_id,username,enabled,soundfile,description) VALUES (?,?,1,,?)", params["card"]["cid"], params['card']['user'], params["card"]["ctype"]]
+    dataset.insert
+  end
+
   # anything in /s is an ssh runner, yay
 
   get '/s/sync' do
@@ -172,7 +195,7 @@ class Coldplay < Sinatra::Base
       end
       puts "SSH: Closed"
     end
-    erb :'meta/20sec'
+    erb :'meta/10sec'
   end
 
 

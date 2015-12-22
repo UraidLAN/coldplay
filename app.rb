@@ -176,7 +176,7 @@ class Coldplay < Sinatra::Base
     dataset = db["INSERT INTO rfid (card_id,username,enabled,soundfile,description) VALUES (?,?,1,NULL,?)", params["card"]["cid"].upcase, params['card']['user'], params["card"]["ctype"]]
     dataset.insert
     flash[:success] = "Card added, remember to <a href='/s/sync'>sync</a>!"
-    redirect :'card/add'
+    redirect '/c/add'
   end
 
   # anything in /s is an ssh runner, yay

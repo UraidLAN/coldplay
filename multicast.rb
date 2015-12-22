@@ -2,10 +2,11 @@ require 'ipaddr'
 require 'socket'
 require 'net/http'
 
+MCA = "239.0.0.1"
+MCP = 3300
+
 def mclisten
   s = UDPSocket.open
-  MCA = "239.0.0.1"
-  MCP = 3300
   m = IPAddr.new(MCA).hton + IPAddr.new("0.0.0.0").hton
   s.setsockopt(:IPPROTO_IP, :IP_ADD_MEMBERSHIP, m)
   s.setsockopt(:SOL_SOCKET, :SO_REUSEPORT, 1)

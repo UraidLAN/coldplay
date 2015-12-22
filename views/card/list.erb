@@ -3,7 +3,6 @@
     <th>ID</th>
     <th>user&nbsp;&nbsp;&nbsp;</th>
     <th>enabled?&nbsp;</th>
-    <th>sound file</th>
     <th>description</th>
   </tr>
   <% @cards.each do |card| %>
@@ -11,7 +10,6 @@
     <td><%= card[:card_id] %></td>
     <td><%= card[:username] %></td>
     <td><% if card[:enabled] %>True<% else %>False<% end %></td>
-    <td><% if card[:soundfile].empty? %>None<% else %><%= card[:soundfile] %><% end %></td>
     <td><%= card[:description] %></td>
   </tr>
   <% end %>

@@ -141,7 +141,7 @@ class Coldplay < Sinatra::Base
       redirect '/a/login'
     end
     db = Sequel.connect('sqlite://cards.db')
-    @cards = db.fetch("SELECT * FROM rfid ORDER BY username DESC")
+    @cards = db.fetch("SELECT * FROM rfid ORDER BY username,description DESC")
     erb :'card/list'
   end
 
